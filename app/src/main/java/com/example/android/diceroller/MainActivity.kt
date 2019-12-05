@@ -10,13 +10,12 @@ import kotlinx.android.synthetic.main.one_roll_dice.*
 import kotlinx.android.synthetic.main.three_roll_dice.*
 import kotlinx.android.synthetic.main.two_roll_dice.*
 import kotlinx.coroutines.*
-import java.lang.IllegalArgumentException
 import java.util.*
 
 private const val MAX_RANDOM_NUMBER = 5
 
 class MainActivity : AppCompatActivity() {
-    private var currentMode: Int = 1
+    private var modeFactor: Int = 1
 
     private var rollOne: Int = 0
     private var rollTwo: Int = 0
@@ -24,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private var rollFour: Int = 0
     private var rollFive: Int = 0
     private var rollSix: Int = 0
+
+    private var currentMode: Mode = Mode.ONE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,15 +39,15 @@ class MainActivity : AppCompatActivity() {
         }
         count_up_button.setOnClickListener { countUp() }
         reset_button.setOnClickListener { reset() }
-        mode_button.setOnClickListener { changeMode(currentMode) }
+        mode_button.setOnClickListener { changeMode() }
     }
 
     private suspend fun startRoll() {
         (0..9).forEach { _ ->
             when (currentMode) {
-                1 -> startRollModeOne()
-                2 -> startRollModeTwo()
-                3 -> startRollModeThree()
+                Mode.ONE -> startRollModeOne()
+                Mode.TWO -> startRollModeTwo()
+                Mode.THREE -> startRollModeThree()
             }
         }
     }
@@ -54,13 +55,12 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun countUp() {
         val rollNumber = result_text.text.toString().toInt()
-        if (rollNumber < MAX_RANDOM_NUMBER * currentMode) {
+        if (rollNumber < MAX_RANDOM_NUMBER * modeFactor) {
             result_text.text = "${rollNumber + 1}"
             when (currentMode) {
-                1 -> countUpModeOne()
-                2 -> countUpModeTwo()
-                3 -> countUpModeThree()
-                else -> throw IllegalArgumentException("Unknown state mode")
+                Mode.ONE -> countUpModeOne()
+                Mode.TWO -> countUpModeTwo()
+                Mode.THREE -> countUpModeThree()
             }
 
         } else {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(
                 baseContext,
-                "It's already ${MAX_RANDOM_NUMBER * currentMode}.",
+                "It's already ${MAX_RANDOM_NUMBER * modeFactor}.",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -157,26 +157,29 @@ class MainActivity : AppCompatActivity() {
         startState()
     }
 
-    private fun changeMode(mode: Int) {
+    private fun changeMode() {
         reset()
 
-        when (mode) {
-            1 -> {
-                currentMode = 2
+        when (currentMode) {
+            Mode.ONE -> {
+                currentMode = Mode.TWO
+                modeFactor = 2
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.VISIBLE
                 three_roll_dice.visibility = View.GONE
             }
 
-            2 -> {
-                currentMode = 3
+            Mode.TWO -> {
+                currentMode = Mode.THREE
+                modeFactor = 3
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.VISIBLE
             }
 
-            3 -> {
-                currentMode = 1
+            Mode.THREE -> {
+                currentMode = Mode.ONE
+                modeFactor = 1
                 dice_image1.visibility = View.VISIBLE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.GONE
