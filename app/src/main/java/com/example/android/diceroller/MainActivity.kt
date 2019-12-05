@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reset() {
-        result_text.setText(R.string.hello_text)
+        result_text.setText(R.string.base_text)
         dice_image1.setImageResource(R.drawable.empty_dice)
         dice_image2.setImageResource(R.drawable.empty_dice)
         dice_image3.setImageResource(R.drawable.empty_dice)

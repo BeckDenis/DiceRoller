@@ -9,4 +9,5 @@
     <string name="reset_label">Reset</string>
     <string name="mode_label">Mode</string>
     <string name="hello_text">Hello!</string>
+    <string name="base_text">0</string>
 </resources>
