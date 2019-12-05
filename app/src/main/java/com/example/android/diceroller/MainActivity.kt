@@ -3,6 +3,8 @@ package com.example.android.diceroller
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,8 +41,37 @@ class MainActivity : AppCompatActivity() {
         }
         count_up_button.setOnClickListener { countUp() }
         reset_button.setOnClickListener { reset() }
-        mode_button.setOnClickListener { changeMode() }
     }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.overflow_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.mode_one -> {
+                currentMode = Mode.ONE
+                changeMode()
+                true
+            }
+            R.id.mode_two ->{
+                currentMode = Mode.TWO
+                changeMode()
+                true
+            }
+            R.id.mode_three ->{
+                currentMode = Mode.THREE
+                changeMode()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
 
     private suspend fun startRoll() {
         (0..9).forEach { _ ->
@@ -162,27 +193,24 @@ class MainActivity : AppCompatActivity() {
 
         when (currentMode) {
             Mode.ONE -> {
-                currentMode = Mode.TWO
+                modeFactor = 1
+                dice_image1.visibility = View.VISIBLE
+                two_roll_dice.visibility = View.GONE
+                three_roll_dice.visibility = View.GONE
+            }
+
+            Mode.TWO -> {
                 modeFactor = 2
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.VISIBLE
                 three_roll_dice.visibility = View.GONE
             }
 
-            Mode.TWO -> {
-                currentMode = Mode.THREE
+            Mode.THREE -> {
                 modeFactor = 3
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.VISIBLE
-            }
-
-            Mode.THREE -> {
-                currentMode = Mode.ONE
-                modeFactor = 1
-                dice_image1.visibility = View.VISIBLE
-                two_roll_dice.visibility = View.GONE
-                three_roll_dice.visibility = View.GONE
             }
         }
     }
@@ -196,7 +224,6 @@ class MainActivity : AppCompatActivity() {
         roll_button.isEnabled = value
         count_up_button.isEnabled = value
         reset_button.isEnabled = value
-        mode_button.isEnabled = value
     }
 
     private fun rollDiceImage(number: Int) = when (number) {
