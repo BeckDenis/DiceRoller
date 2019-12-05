@@ -43,35 +43,19 @@ class MainActivity : AppCompatActivity() {
         reset_button.setOnClickListener { reset() }
     }
 
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.overflow_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mode_one -> {
-                currentMode = Mode.ONE
-                changeMode()
-                true
-            }
-            R.id.mode_two ->{
-                currentMode = Mode.TWO
-                changeMode()
-                true
-            }
-            R.id.mode_three ->{
-                currentMode = Mode.THREE
-                changeMode()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.mode_one   -> changeMode(Mode.ONE)
+            R.id.mode_two   -> changeMode(Mode.TWO)
+            R.id.mode_three -> changeMode(Mode.THREE)
         }
+        return true
     }
-
-
 
     private suspend fun startRoll() {
         (0..9).forEach { _ ->
@@ -188,26 +172,37 @@ class MainActivity : AppCompatActivity() {
         startState()
     }
 
-    private fun changeMode() {
-        reset()
+    private fun changeMode(mode: Mode) {
+        currentMode = mode
 
+        changeModeFactor()
+        changeView()
+        reset()
+    }
+
+    private fun changeModeFactor() {
+        modeFactor = when (currentMode) {
+            Mode.ONE   -> 1
+            Mode.TWO   -> 2
+            Mode.THREE -> 3
+        }
+    }
+
+    private fun changeView() {
         when (currentMode) {
             Mode.ONE -> {
-                modeFactor = 1
                 dice_image1.visibility = View.VISIBLE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.GONE
             }
 
             Mode.TWO -> {
-                modeFactor = 2
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.VISIBLE
                 three_roll_dice.visibility = View.GONE
             }
 
             Mode.THREE -> {
-                modeFactor = 3
                 dice_image1.visibility = View.GONE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.VISIBLE
