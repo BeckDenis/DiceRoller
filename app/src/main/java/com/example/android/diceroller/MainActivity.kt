@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.two_roll_dice.*
 import kotlinx.coroutines.*
 import java.util.*
 
-private const val MAX_RANDOM_NUMBER = 5
+private const val MAX_RANDOM_NUMBER = 6
 
 class MainActivity : AppCompatActivity() {
     private var modeFactor: Int = 1
@@ -191,19 +191,19 @@ class MainActivity : AppCompatActivity() {
     private fun changeView() {
         when (currentMode) {
             Mode.ONE -> {
-                dice_image1.visibility = View.VISIBLE
+                one_roll_dice.visibility = View.VISIBLE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.GONE
             }
 
             Mode.TWO -> {
-                dice_image1.visibility = View.GONE
+                one_roll_dice.visibility = View.GONE
                 two_roll_dice.visibility = View.VISIBLE
                 three_roll_dice.visibility = View.GONE
             }
 
             Mode.THREE -> {
-                dice_image1.visibility = View.GONE
+                one_roll_dice.visibility = View.GONE
                 two_roll_dice.visibility = View.GONE
                 three_roll_dice.visibility = View.VISIBLE
             }
