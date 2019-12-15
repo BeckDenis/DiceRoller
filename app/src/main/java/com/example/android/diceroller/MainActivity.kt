@@ -22,9 +22,6 @@ class MainActivity : AppCompatActivity() {
     private var rollOne: Int = 0
     private var rollTwo: Int = 0
     private var rollThree: Int = 0
-    private var rollFour: Int = 0
-    private var rollFive: Int = 0
-    private var rollSix: Int = 0
 
     private var currentMode: Mode = Mode.ONE
 
@@ -97,27 +94,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun startRollModeTwo() {
+        rollOne = rollDice()
+        dice_image2.setImageResource(rollDiceImage(rollOne))
+
         rollTwo = rollDice()
-        dice_image2.setImageResource(rollDiceImage(rollTwo))
+        dice_image3.setImageResource(rollDiceImage(rollTwo))
 
-        rollThree = rollDice()
-        dice_image3.setImageResource(rollDiceImage(rollThree))
-
-        result_text.text = (rollTwo + rollThree).toString()
+        result_text.text = (rollOne + rollTwo).toString()
         delay(50)
     }
 
     private suspend fun startRollModeThree() {
-        rollFour = rollDice()
-        dice_image4.setImageResource(rollDiceImage(rollFour))
+        rollOne = rollDice()
+        dice_image4.setImageResource(rollDiceImage(rollOne))
 
-        rollFive = rollDice()
-        dice_image5.setImageResource(rollDiceImage(rollFive))
+        rollTwo = rollDice()
+        dice_image5.setImageResource(rollDiceImage(rollTwo))
 
-        rollSix = rollDice()
-        dice_image6.setImageResource(rollDiceImage(rollSix))
+        rollThree = rollDice()
+        dice_image6.setImageResource(rollDiceImage(rollThree))
 
-        result_text.text = (rollFour + rollFive + rollSix).toString()
+        result_text.text = (rollOne + rollTwo + rollThree).toString()
         delay(50)
     }
 
@@ -132,30 +129,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun countUpModeTwo() {
         when {
+            rollOne < MAX_RANDOM_NUMBER -> {
+                rollOne++
+                dice_image2.setImageResource(rollDiceImage(rollOne))
+            }
             rollTwo < MAX_RANDOM_NUMBER -> {
                 rollTwo++
-                dice_image2.setImageResource(rollDiceImage(rollTwo))
-            }
-            rollThree < MAX_RANDOM_NUMBER -> {
-                rollThree++
-                dice_image3.setImageResource(rollDiceImage(rollThree))
+                dice_image3.setImageResource(rollDiceImage(rollTwo))
             }
         }
     }
 
     private fun countUpModeThree() {
         when {
-            rollFour < MAX_RANDOM_NUMBER -> {
-                rollFour++
-                dice_image4.setImageResource(rollDiceImage(rollFour))
+            rollOne < MAX_RANDOM_NUMBER -> {
+                rollOne++
+                dice_image4.setImageResource(rollDiceImage(rollOne))
             }
-            rollFive < MAX_RANDOM_NUMBER -> {
-                rollFive++
-                dice_image5.setImageResource(rollDiceImage(rollFive))
+            rollTwo < MAX_RANDOM_NUMBER -> {
+                rollTwo++
+                dice_image5.setImageResource(rollDiceImage(rollTwo))
             }
-            rollSix < MAX_RANDOM_NUMBER -> {
-                rollSix++
-                dice_image6.setImageResource(rollDiceImage(rollSix))
+            rollThree < MAX_RANDOM_NUMBER -> {
+                rollThree++
+                dice_image6.setImageResource(rollDiceImage(rollThree))
             }
         }
     }
