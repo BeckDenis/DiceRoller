@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.one_roll_dice.*
@@ -28,8 +29,11 @@ class MainActivity : AppCompatActivity() {
         reset_button.setOnClickListener { reset() }
 
         updateImage()
-        updateScore()
         changeView()
+
+        viewModel.resultScore.observe(this, Observer {newScore ->
+            result_text.text = newScore.toString()
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,7 +58,6 @@ class MainActivity : AppCompatActivity() {
             repeat(10) {
                 viewModel.startRoll()
                 updateImage()
-                updateScore()
             }
             state(true)
         }
@@ -63,7 +66,6 @@ class MainActivity : AppCompatActivity() {
     private fun countUp() {
         if (!viewModel.checkMaxScore()) {
             viewModel.countUp()
-            updateScore()
             updateImage()
         } else {
             Toast.makeText(baseContext, getString(R.string.toast_text), Toast.LENGTH_SHORT).show()
@@ -87,10 +89,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateScore() {
-        result_text.text = viewModel.resultScore.toString()
-    }
-
     private fun state(value: Boolean) {
         roll_button.isEnabled = value
         count_up_button.isEnabled = value
@@ -99,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun reset() {
         viewModel.reset()
-        updateScore()
         updateImage()
     }
 
