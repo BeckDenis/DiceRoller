@@ -29,13 +29,11 @@
     <Button
         android:id="@+id/count_up_button"
         style="@style/button"
-        android:enabled="false"
         android:text="@string/count_up_label" />
 
     <Button
         android:id="@+id/reset_button"
         style="@style/button"
-        android:enabled="false"
         android:text="@string/reset_label" />
 
 

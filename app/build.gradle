@@ -40,4 +40,7 @@ dependencies {
 
     // Material design
     implementation 'com.google.android.material:material:1.2.0-alpha02'
+
+    // ViewModel
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 }

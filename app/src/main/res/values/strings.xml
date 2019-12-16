@@ -10,6 +10,7 @@
     <string name="mode_label">Mode</string>
     <string name="hello_text">Hello!</string>
     <string name="base_text">0</string>
+    <string name="toast_text">Maximum points</string>
 
 
     <string name="mode_one">One Roll Dice</string>
