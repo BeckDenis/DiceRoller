@@ -17,10 +17,6 @@ class MainViewModel : ViewModel() {
     val resultScore = MutableLiveData<Int>()
     var currentMode: Mode = Mode.ONE
 
-    init {
-        resultScore.value = 0
-    }
-
     suspend fun startRoll() {
         when (currentMode) {
             Mode.ONE -> startRollModeOne()

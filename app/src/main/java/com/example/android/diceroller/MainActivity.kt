@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
         count_up_button.setOnClickListener { countUp() }
         reset_button.setOnClickListener { reset() }
 
-        updateImage()
         changeView()
 
-        viewModel.resultScore.observe(this, Observer {newScore ->
+        viewModel.resultScore.observe(this, Observer { newScore ->
             result_text.text = newScore.toString()
+            updateImage()
         })
     }
 
@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             state(false)
             repeat(10) {
                 viewModel.startRoll()
-                updateImage()
             }
             state(true)
         }
@@ -66,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     private fun countUp() {
         if (!viewModel.checkMaxScore()) {
             viewModel.countUp()
-            updateImage()
         } else {
             Toast.makeText(baseContext, getString(R.string.toast_text), Toast.LENGTH_SHORT).show()
         }
@@ -97,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun reset() {
         viewModel.reset()
-        updateImage()
     }
 
     private fun changeView() {
