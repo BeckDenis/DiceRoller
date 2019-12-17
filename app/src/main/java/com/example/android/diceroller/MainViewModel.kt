@@ -1,5 +1,6 @@
 package com.example.android.diceroller
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.delay
@@ -14,7 +15,10 @@ class MainViewModel : ViewModel() {
     var rollTwo: Int = 0
     var rollThree: Int = 0
 
-    val resultScore = MutableLiveData<Int>()
+    private val _resultScore = MutableLiveData<Int>()
+    val resultScore: LiveData<Int>
+        get() = _resultScore
+
     var currentMode: Mode = Mode.ONE
 
     suspend fun startRoll() {
@@ -23,7 +27,7 @@ class MainViewModel : ViewModel() {
             Mode.TWO -> startRollModeTwo()
             Mode.THREE -> startRollModeThree()
         }
-        resultScore.value = countScore()
+        _resultScore.value = countScore()
         delay(50)
     }
 
@@ -33,10 +37,10 @@ class MainViewModel : ViewModel() {
             rollTwo < MAX_RANDOM_NUMBER -> rollTwo++
             rollThree < MAX_RANDOM_NUMBER -> rollThree++
         }
-        resultScore.value = countScore()
+        _resultScore.value = countScore()
     }
 
-    fun checkMaxScore() = resultScore.value == MAX_RANDOM_NUMBER * modeFactor
+    fun checkMaxScore() = _resultScore.value == MAX_RANDOM_NUMBER * modeFactor
 
     private fun startRollModeOne() {
         rollOne = rollDice()
@@ -84,6 +88,6 @@ class MainViewModel : ViewModel() {
         rollOne = 0
         rollTwo = 0
         rollThree = 0
-        resultScore.value = 0
+        _resultScore.value = 0
     }
 }
